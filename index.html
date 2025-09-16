@@ -11,8 +11,14 @@
     <input type="text" name="txtNombre" id="txtNombre"> 
     <script>
         document.addEventListener('DOMcontenloded',(e) =>{
-            console.log ('DOM cargado')
-        }
+            txtNombre.addEventListener('keyup', e=>{ 
+                fetch('http//localhost:300/',{
+                    'method': 'POST',
+                    doby: txtNombre.value
+                }).the(resp=>respo.txt())
+                .the(data=>console.log(data));
+            });
+        });
     </script>
 </body>
 </html>
