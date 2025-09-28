@@ -4,7 +4,9 @@ db = crud_academico.crud()
 
 class crud_alumno:
     def consultar(self, buscar):
-        return db.consultar("SELECT * FROM alumnos WHERE nombre like '%"+ buscar +"%'")
+        sql = "SELECT * FROM alumnos WHERE nombre LIKE %s"
+        valores = (f"%{buscar}%",)
+        return db.consultar(sql, valores)
     
     def administrar(self, datos):
         if datos['accion'] == "nuevo":
