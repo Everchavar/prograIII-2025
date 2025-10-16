@@ -27,3 +27,4 @@ class crud_alumno:
         else:
             raise ValueError("Acción no reconocida")
         return db.ejecutar(sql, valores)
+    

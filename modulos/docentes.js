@@ -15,15 +15,14 @@ async function guardarDocentes(){
         idDocente,
         codigo: txtCodigoDocente.value,
         nombre: txtNombreDocente.value,
-        direccion: txtDireccionDocente.value,
-        telefono: txtTelefonoDocente.value,
-        email: txtEmailDocente.value,
         dui: txtDuiDocente.value,
-        escalafon: txtEscalafonDocente.value
+        materia: txtMateriaDocente.value,
+        email: txtEmailDocente.value,
+        telefono: txtTelefonoDocente.value,
+        direccion: txtDireccionDocente.value
     };
-    let response = await fetch("/docentes", {
+    let response = await fetch("/docentes",{
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(datos),
     }), 
         respuesta = await response.json();
@@ -41,11 +40,11 @@ function limpiarFormulario(){
     idDocente = 0;
     txtCodigoDocente.value = "";
     txtNombreDocente.value = "";
-    txtDireccionDocente.value = "";
-    txtTelefonoDocente.value = "";
-    txtEmailDocente.value = "";
     txtDuiDocente.value = "";
-    txtEscalafonDocente.value = "";
+    txtMateriaDocente.value = "";
+    txtEmailDocente.value = "";
+    txtTelefonoDocente.value = "";
+    txtDireccionDocente.value = "";
 }
 
 async function obtenerDocentes(){
@@ -61,15 +60,12 @@ function mostrarDatosDocentes(docentes){
             <tr onClick='mostrarDocente(${ JSON.stringify(docente) })'>
                 <td>${docente.codigo}</td>
                 <td>${docente.nombre}</td>
-                <td>${docente.direccion}</td>
-                <td>${docente.telefono}</td>
-                <td>${docente.email}</td>
                 <td>${docente.dui}</td>
-                <td>${docente.escalafon}</td>
-                <td>
-                    <button onClick='eliminarDocente(${ JSON.stringify(docente) }, event)' 
-                            class="btn btn-danger btn-sm">ELIMINAR</button>
-                </td>
+                <td>${docente.materia}</td>
+                <td>${docente.email}</td>
+                <td>${docente.telefono}</td>
+                <td>${docente.direccion}</td>
+                <td><button onClick='eliminarDocente(${ JSON.stringify(docente) }, event)' class="btn btn-danger btn-sm">ELIMINAR</button></td>
             </tr>
         `;
     });
@@ -81,16 +77,16 @@ function mostrarDocente(docente){
     idDocente = docente.idDocente;
     txtCodigoDocente.value = docente.codigo;
     txtNombreDocente.value = docente.nombre;
-    txtDireccionDocente.value = docente.direccion;
-    txtTelefonoDocente.value = docente.telefono;
-    txtEmailDocente.value = docente.email;
     txtDuiDocente.value = docente.dui;
-    txtEscalafonDocente.value = docente.escalafon;
+    txtMateriaDocente.value = docente.materia;
+    txtEmailDocente.value = docente.email;
+    txtTelefonoDocente.value = docente.telefono;
+    txtDireccionDocente.value = docente.direccion;
 }
 
 function eliminarDocente(docente, event){
     event.preventDefault();
-    if(confirm(`¿Está seguro de eliminar a ${docente.nombre}?`)){
+    if(confirm(`Esta seguro de eliminar a ${docente.nombre}`)){
         idDocente = docente.idDocente;
         accion = "eliminar";
         guardarDocentes();

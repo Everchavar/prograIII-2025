@@ -1,6 +1,13 @@
 <form id="frmDocentes">
     <div class="card text-bg-dark" style="min-width: 700px;">
-        <div class="card-header">ADMINISTRACION DE DOCENTES</div>
+        <div class="card-header">
+            <div class="d-flex">
+                ADMINISTRACION DE DOCENTES
+                <div class="ms-auto">
+                    <button data-form="docentes" type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
         <div class="card-body">
             <div class="row p-1">
                 <div class="col-3 col-md-2">CODIGO</div>
@@ -15,15 +22,15 @@
                 </div>
             </div>
             <div class="row p-1">
-                <div class="col-3 col-md-2">DIRECCION</div>
-                <div class="col-9 col-md-8">
-                    <input required type="text" id="txtDireccionDocente" name="txtDireccionDocente" class="form-control form-control-sm" />
+                <div class="col-3 col-md-2">DUI</div>
+                <div class="col-9 col-md-3">
+                    <input required type="text" id="txtDuiDocente" name="txtDuiDocente" class="form-control form-control-sm" />
                 </div>
             </div>
             <div class="row p-1">
-                <div class="col-3 col-md-2">TELEFONO</div>
-                <div class="col-9 col-md-3">
-                    <input type="text" id="txtTelefonoDocente" name="txtTelefonoDocente" class="form-control form-control-sm" />
+                <div class="col-3 col-md-2">MATERIA</div>
+                <div class="col-9 col-md-4">
+                    <input type="text" id="txtMateriaDocente" name="txtMateriaDocente" class="form-control form-control-sm" />
                 </div>
             </div>
             <div class="row p-1">
@@ -33,53 +40,50 @@
                 </div>
             </div>
             <div class="row p-1">
-                <div class="col-3 col-md-2">DUI</div>
-                <div class="col-9 col-md-4">
-                    <input required type="text" id="txtDuiDocente" name="txtDuiDocente" class="form-control form-control-sm" />
+                <div class="col-3 col-md-2">TELEFONO</div>
+                <div class="col-9 col-md-3">
+                    <input type="text" id="txtTelefonoDocente" name="txtTelefonoDocente" class="form-control form-control-sm" />
                 </div>
             </div>
             <div class="row p-1">
-                <div class="col-3 col-md-2">ESCALAFON</div>
-                <div class="col-9 col-md-4">
-                    <input required type="text" id="txtEscalafonDocente" name="txtEscalafonDocente" class="form-control form-control-sm" />
+                <div class="col-3 col-md-2">DIRECCION</div>
+                <div class="col-9 col-md-8">
+                    <input type="text" id="txtDireccionDocente" name="txtDireccionDocente" class="form-control form-control-sm" />
                 </div>
             </div>
         </div>
         <div class="card-footer text-center">
-            <input type="submit" id="btnGuardarDocente" name="btnGuardarDocente" class="btn btn-primary" value="GUARDAR" />
-            <input type="reset" id="btnNuevoDocente" name="btnNuevoDocente" class="btn btn-warning" value="NUEVO" />
-            <input type="button" id="btnBuscarDocente" name="btnBuscarDocente" class="btn btn-info" value="BUSCAR" />
+            <input type="submit" id="btnGuardarDocente" name="btnGuardarDocente" class="btn btn-outline-primary" value="GUARDAR" />
+            <input type="reset" id="btnNuevoDocente" name="btnNuevoDocente" class="btn btn-outline-warning" value="NUEVO" />
+            <input type="button" id="btnBuscarDocente" name="btnBuscarDocente" class="btn btn-outline-info" value="BUSCAR" />
         </div>
     </div>
 </form>
-
 <script>
     var accion = "nuevo",
         idDocente = 0;
     
-    frmDocentes.addEventListener("submit", e => {
+    frmDocentes.addEventListener("submit",e=>{
         e.preventDefault();
         guardarDocentes();
     });
-
     async function guardarDocentes(){
         let datos = {
             accion,
             idDocente,
             codigo: txtCodigoDocente.value,
             nombre: txtNombreDocente.value,
-            direccion: txtDireccionDocente.value,
-            telefono: txtTelefonoDocente.value,
-            email: txtEmailDocente.value,
             dui: txtDuiDocente.value,
-            escalafon: txtEscalafonDocente.value
+            materia: txtMateriaDocente.value,
+            email: txtEmailDocente.value,
+            telefono: txtTelefonoDocente.value,
+            direccion: txtDireccionDocente.value
         };
-        let response = await fetch("/docentes", {
+        let response = await fetch("/docentes",{
             method: "POST",
-            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(datos),
-        }); 
-        let respuesta = await response.json();
+        }), 
+            respuesta = await response.json();
         if(respuesta.msg!="ok"){
             alertify.error(`Error al procesar docente: ${respuesta}`);
             return;
@@ -87,31 +91,29 @@
         limpiarFormulario();
         obtenerDocentes();
     }
-
     function limpiarFormulario(){
         accion = "nuevo";
         idDocente = 0;
         txtCodigoDocente.value = "";
         txtNombreDocente.value = "";
-        txtDireccionDocente.value = "";
-        txtTelefonoDocente.value = "";
-        txtEmailDocente.value = "";
         txtDuiDocente.value = "";
-        txtEscalafonDocente.value = "";
+        txtMateriaDocente.value = "";
+        txtEmailDocente.value = "";
+        txtTelefonoDocente.value = "";
+        txtDireccionDocente.value = "";
     }
-
     function mostrarDocente(docente){
         accion = "modificar";
         idDocente = docente.idDocente;
         txtCodigoDocente.value = docente.codigo;
         txtNombreDocente.value = docente.nombre;
-        txtDireccionDocente.value = docente.direccion;
-        txtTelefonoDocente.value = docente.telefono;
-        txtEmailDocente.value = docente.email;
         txtDuiDocente.value = docente.dui;
-        txtEscalafonDocente.value = docente.escalafon;
+        txtMateriaDocente.value = docente.materia;
+        txtEmailDocente.value = docente.email;
+        txtTelefonoDocente.value = docente.telefono;
+        txtDireccionDocente.value = docente.direccion;
+        alertify.success(`Docente ${docente.nombre} cargado para editar`);
     }
-
     btnBuscarDocente.addEventListener("click", e=>{
         e.preventDefault();
         abrirVentana('busqueda_docentes');

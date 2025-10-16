@@ -1,375 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUD - Academico - Python</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
        crossorigin="anonymous" referrerpolicy="no-referrer" />
+       <!-- CSS -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css"/>
+    <!-- Default theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/default.min.css"/>
+    <!-- Semantic UI theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/semantic.min.css"/>
+    <!-- Bootstrap theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css"/>
 </head>
 <body>
-<div class="container-fluid">
-    <div class="row">
-        <!-- Columna Alumnos -->
-        <div class="col-12 col-md-6">
-            <form id="frmAlumnos">
-                <div class="card text-bg-dark">
-                    <div class="card-header">ADMINISTRACION DE ALUMNOS</div>
-                    <div class="card-body">
-                        <!-- ...campos de alumnos... -->
-                        <div class="row p-1">
-                            <div class="col-3 col-md-2">CODIGO</div>
-                            <div class="col-9 col-md-3">
-                                <input required type="text" id="txtCodigoAlumno" name="txtCodigoAlumno" class="form-control form-control-sm" />
-                            </div>
-                        </div>
-                        <div class="row p-1">
-                            <div class="col-3 col-md-2">NOMBRE</div>
-                            <div class="col-9 col-md-4">
-                                <input required type="text" id="txtNombreAlumno" name="txtNombreAlumno" class="form-control form-control-sm" />
-                            </div>
-                        </div>
-                        <div class="row p-1">
-                            <div class="col-3 col-md-2">DIRECCION</div>
-                            <div class="col-9 col-md-8">
-                                <input required type="text" id="txtDireccionAlumno" name="txtDireccionAlumno" class="form-control form-control-sm" />
-                            </div>
-                        </div>
-                        <div class="row p-1">
-                            <div class="col-3 col-md-2">TELEFONO</div>
-                            <div class="col-9 col-md-3">
-                                <input type="text" id="txtTelefonoAlumno" name="txtTelefonoAlumno" class="form-control form-control-sm" />
-                            </div>
-                        </div>
-                        <div class="row p-1">
-                            <div class="col-3 col-md-2">EMAIL</div>
-                            <div class="col-9 col-md-4">
-                                <input type="email" id="txtEmailAlumno" name="txtEmailAlumno" class="form-control form-control-sm" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer text-center">
-                        <input type="submit" id="btnGuardarAlumno" name="btnGuardarAlumno" class="btn btn-primary" value="GUARDAR" />
-                        <input type="reset" id="btnNuevoAlumno" name="btnNuevoAlumno" class="btn btn-warning" value="NUEVO" />
-                    </div>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">::.. SISTEMA ACADEMICO ..::</a>
+            <div class="collapse navbar-collapse" id="mnxAcademica">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="#" data-form="alumnos">Alumnos</a>
+                    <a class="nav-link" href="#" data-form="materias">Materias</a>
+                    <a class="nav-link" href="#" data-form="docentes">Docentes</a>
+                    <a class="nav-link" href="#" data-form="notas">Notas</a>
                 </div>
-            </form>   
-            <form id="frmBusquedaAlumnos" class="mt-3">
-                <div class="card text-bg-dark">
-                    <div class="card-header">BUSQUEDA DE ALUMNOS</div>
-                    <div class="card-body">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>CODIGO</th>
-                                    <th>NOMBRE</th>
-                                    <th>DIRECCION</th>
-                                    <th>TELEFONO</th>
-                                    <th>EMAIL</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody id="tblAlumnos"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </form>   
+            </div>
         </div>
-        <!-- Columna Docentes -->
-        <div class="col-12 col-md-6">
-            <form id="frmDocentes">
-                <div class="card text-bg-dark">
-                    <div class="card-header">ADMINISTRACION DE DOCENTES</div>
-                    <div class="card-body">
-                        <!-- ...campos de docentes... -->
-                        <div class="row p-1">
-                            <div class="col-3 col-md-2">CODIGO</div>
-                            <div class="col-9 col-md-3">
-                                <input required type="text" id="txtCodigoDocente" name="txtCodigoDocente" class="form-control form-control-sm" />
-                            </div>
-                        </div>
-                        <div class="row p-1">
-                            <div class="col-3 col-md-2">NOMBRE</div>
-                            <div class="col-9 col-md-4">
-                                <input required type="text" id="txtNombreDocente" name="txtNombreDocente" class="form-control form-control-sm" />
-                            </div>
-                        </div>
-                        <div class="row p-1">
-                            <div class="col-3 col-md-2">DIRECCION</div>
-                            <div class="col-9 col-md-8">
-                                <input required type="text" id="txtDireccionDocente" name="txtDireccionDocente" class="form-control form-control-sm" />
-                            </div>
-                        </div>
-                        <div class="row p-1">
-                            <div class="col-3 col-md-2">TELEFONO</div>
-                            <div class="col-9 col-md-3">
-                                <input type="text" id="txtTelefonoDocente" name="txtTelefonoDocente" class="form-control form-control-sm" />
-                            </div>
-                        </div>
-                        <div class="row p-1">
-                            <div class="col-3 col-md-2">EMAIL</div>
-                            <div class="col-9 col-md-4">
-                                <input type="email" id="txtEmailDocente" name="txtEmailDocente" class="form-control form-control-sm" />
-                            </div>
-                        </div>
-                        <div class="row p-1">
-                            <div class="col-3 col-md-2">DUI</div>
-                            <div class="col-9 col-md-4">
-                                <input type="text" id="txtDuiDocente" name="txtDuiDocente" class="form-control form-control-sm" />
-                            </div>
-                        </div>
-                        <div class="row p-1">
-                            <div class="col-3 col-md-2">ESCALAFON</div>
-                            <div class="col-9 col-md-4">
-                                <input type="text" id="txtEscalafonDocente" name="txtEscalafonDocente" class="form-control form-control-sm" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer text-center">
-                        <input type="submit" id="btnGuardarDocente" name="btnGuardarDocente" class="btn btn-primary" value="GUARDAR" />
-                        <input type="reset" id="btnNuevoDocente" name="btnNuevoDocente" class="btn btn-warning" value="NUEVO" />
-                    </div>
-                </div>
-            </form>
-            <form id="frmBusquedaDocentes" class="mt-3">
-                <div class="card text-bg-dark">
-                    <div class="card-header">BUSQUEDA DE DOCENTES</div>
-                    <div class="card-body">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>CODIGO</th>
-                                    <th>NOMBRE</th>
-                                    <th>DIRECCION</th>
-                                    <th>TELEFONO</th>
-                                    <th>EMAIL</th>
-                                    <th>DUI</th>
-                                    <th>ESCALAFON</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody id="tblDocentes"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </form>
-        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="position-absolute" id="alumnos"></div>
+        <div class="position-absolute" id="busqueda_alumnos"></div>
+        <div class="position-absolute" id="materias"></div>
+        <div class="position-absolute" id="busqueda_materias"></div>
+        <div class="position-absolute" id="docentes"></div>
+        <div class="position-absolute" id="busqueda_docentes"></div>
+        <div class="position-absolute" id="notas"></div>
+        <div class="position-absolute" id="busqueda_notas"></div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
-<script>
-    // CRUD ALUMNOS
-    var accion = "nuevo", idAlumno = 0;
-    document.addEventListener("DOMContentLoaded", event=>{ 
-        frmAlumnos.addEventListener("submit",e=>{
-            e.preventDefault();
-            guardarAlumnos();
-        });
-        obtenerAlumnos();
-
-        // --- DOCENTES ---
-        frmDocentes.addEventListener("submit",e=>{
-            e.preventDefault();
-            guardarDocentes();
-        });
-        obtenerDocentes();
-    });
-
-    async function guardarAlumnos(){
-        let datos = {
-            accion,
-            idAlumno,
-            codigo: txtCodigoAlumno.value,
-            nombre: txtNombreAlumno.value,
-            direccion: txtDireccionAlumno.value,
-            telefono: txtTelefonoAlumno.value,
-            email: txtEmailAlumno.value
-        };
-        try {
-            let response = await fetch("http://localhost:3000/alumnos",{
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(datos),
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js" integrity="sha512-MSOo1aY+3pXCOCdGAYoBZ6YGI0aragoQsg1mKKBHXCYPIWxamwOE7Drh+N5CPgGI5SA9IEKJiPjdfqWFWmZtRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", event=>{
+            mnxAcademica.addEventListener('click', e=>{
+                e.preventDefault();
+                
+                let form = e.target.dataset.form;
+                abrirVentana(form);
             });
-            let respuesta = await response.json();
-            if(respuesta.msg!="ok"){
-                alertify.error(`Error al guardar alumno: ${respuesta.msg}`);
-            } else {
-                alertify.success("Alumno guardado correctamente");
-                limpiarFormulario();
-                obtenerAlumnos();
+        });
+        function abrirVentana(form, callback){
+            if( $(`#${form} > form`).length === 0 ){
+                fetch(`/vistas?form=${form}`)
+                .then(response => response.text())
+                .then(ventana => {
+                    $(`#${form}`).html(ventana).draggable();
+                    cerrarVentana();
+                    if(callback) callback();
+                })
+                .catch(error => console.error('Error al cargar el formulario:', error));
+            }else{
+                $(`#${form}`).show();
             }
-        } catch (error) {
-            alertify.error("Error de red o servidor");
         }
-    }
-    function limpiarFormulario(){
-        accion = "nuevo";
-        idAlumno = 0;
-        txtCodigoAlumno.value = "";
-        txtNombreAlumno.value = "";
-        txtDireccionAlumno.value = "";
-        txtTelefonoAlumno.value = "";
-        txtEmailAlumno.value = "";
-    }
-    async function obtenerAlumnos(){
-        let response = await fetch("http://localhost:3000/alumnos");
-        let respuesta = await response.json();
-        mostrarDatosAlumnos(respuesta);
-    }
-    function mostrarDatosAlumnos(alumnos){
-        let tbody = document.getElementById("tblAlumnos");
-        tbody.innerHTML = "";
-        alumnos.forEach(alumno => {
-            let tr = document.createElement("tr");
-            tr.onclick = () => mostrarAlumno(alumno);
-            tr.innerHTML = `
-                <td>${alumno.codigo}</td>
-                <td>${alumno.nombre}</td>
-                <td>${alumno.direccion}</td>
-                <td>${alumno.telefono}</td>
-                <td>${alumno.email}</td>
-                <td>
-                    <button type="button" class="btn btn-danger btn-sm eliminar-btn">ELIMINAR</button>
-                </td>
-            `;
-            tbody.appendChild(tr);
-
-            // Asigna el evento al botón eliminar
-            tr.querySelector(".eliminar-btn").addEventListener("click", function(event){
-                event.stopPropagation();
-                eliminarAlumno(alumno);
+        function cerrarVentana(){
+            $('.btn-close').off('click').click(e=>{
+                let form = e.target.dataset.form;
+                $(`#${form}`).hide();
             });
-        });
-    }
-    function mostrarAlumno(alumnoStr){
-        let alumno = JSON.parse(decodeURIComponent(alumnoStr));
-        accion = "modificar";
-        idAlumno = alumno.idAlumno;
-        txtCodigoAlumno.value = alumno.codigo;
-        txtNombreAlumno.value = alumno.nombre;
-        txtDireccionAlumno.value = alumno.direccion;
-        txtTelefonoAlumno.value = alumno.telefono;
-        txtEmailAlumno.value = alumno.email;
-    }
-    function eliminarAlumno(alumno){
-        if(confirm(`Esta seguro de eliminar a ${alumno.nombre}`)){
-            idAlumno = alumno.idAlumno;
-            accion = "eliminar";
-            guardarAlumnos();
         }
-    }
-
-    // CRUD DOCENTES
-    var accionDocente = "nuevo", idDocente = 0;
-
-    async function guardarDocentes() {
-        let datos = {
-            accion: accionDocente,
-            idDocente,
-            codigo: txtCodigoDocente.value,
-            nombre: txtNombreDocente.value,
-            direccion: txtDireccionDocente.value,
-            telefono: txtTelefonoDocente.value,
-            email: txtEmailDocente.value,
-            dui: txtDuiDocente.value,
-            escalafon: txtEscalafonDocente.value
-        };
-        try {
-            let response = await fetch("http://localhost:3000/docentes", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(datos),
-            });
-            let respuesta = await response.json();
-            if (respuesta.msg != "ok") {
-                alertify.error(`Error al guardar docente: ${respuesta.msg}`);
-            } else {
-                alertify.success("Docente guardado correctamente");
-                limpiarFormularioDocente();
-                obtenerDocentes();
-            }
-        } catch (error) {
-            alertify.error("Error de red o servidor");
-        }
-    }
-
-    function limpiarFormularioDocente() {
-        accionDocente = "nuevo";
-        idDocente = 0;
-        txtCodigoDocente.value = "";
-        txtNombreDocente.value = "";
-        txtDireccionDocente.value = "";
-        txtTelefonoDocente.value = "";
-        txtEmailDocente.value = "";
-        txtDuiDocente.value = "";
-        txtEscalafonDocente.value = "";
-    }
-
-    async function obtenerDocentes() {
-        let response = await fetch("http://localhost:3000/docentes");
-        let respuesta = await response.json();
-        mostrarDatosDocentes(respuesta);
-    }
-
-    function mostrarDatosDocentes(docentes) {
-        let tbody = document.getElementById("tblDocentes");
-        tbody.innerHTML = "";
-        docentes.forEach(docente => {
-            let tr = document.createElement("tr");
-            tr.onclick = () => mostrarDocente(docente);
-            tr.innerHTML = `
-                <td>${docente.codigo}</td>
-                <td>${docente.nombre}</td>
-                <td>${docente.direccion}</td>
-                <td>${docente.telefono}</td>
-                <td>${docente.email}</td>
-                <td>${docente.dui}</td>
-                <td>${docente.escalafon}</td>
-                <td>
-                    <button type="button" class="btn btn-danger btn-sm eliminar-btn-docente">ELIMINAR</button>
-                </td>
-            `;
-            tbody.appendChild(tr);
-
-            // Asigna el evento al botón eliminar
-            tr.querySelector(".eliminar-btn-docente").addEventListener("click", function(event){
-                event.stopPropagation();
-                eliminarDocente(docente);
-            });
-        });
-    }
-
-    function mostrarDocente(docenteStr) {
-        let docente = JSON.parse(decodeURIComponent(docenteStr));
-        accionDocente = "modificar";
-        idDocente = docente.idDocente;
-        txtCodigoDocente.value = docente.codigo;
-        txtNombreDocente.value = docente.nombre;
-        txtDireccionDocente.value = docente.direccion;
-        txtTelefonoDocente.value = docente.telefono;
-        txtEmailDocente.value = docente.email;
-        txtDuiDocente.value = docente.dui;
-        txtEscalafonDocente.value = docente.escalafon;
-    }
-
-    function eliminarDocente(docente){
-        if(confirm(`Esta seguro de eliminar a ${docente.nombre}`)){
-            idDocente = docente.idDocente;
-            accionDocente = "eliminar";
-            guardarDocentes();
-        }
-    }
-</script>
+    </script>
 </body>
 </html>
