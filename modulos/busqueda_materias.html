@@ -24,33 +24,49 @@
     </div>
 </form>
 <script>
-    obtenerMaterias();
-    async function obtenerMaterias(){
-        let response = await fetch("/materias"), 
-            respuesta = await response.json();
-        mostrarDatosMaterias(respuesta);
+    // Verificar que no se ejecute múltiples veces
+    if(typeof obtenerMateriasEjecutado === 'undefined'){
+        obtenerMateriasEjecutado = true;
+        obtenerMaterias();
     }
+    
+    async function obtenerMaterias(){
+        try {
+            let response = await fetch("/materias"), 
+                respuesta = await response.json();
+            mostrarDatosMaterias(respuesta);
+        } catch(error) {
+            console.error('Error al obtener materias:', error);
+            alertify.error('Error al cargar materias');
+        }
+    }
+    
     function mostrarDatosMaterias(materias){
+        // Limpiar tabla antes de agregar
+        tblMaterias.innerHTML = "";
+        
         let filas = "";
         materias.forEach(materia=>{
             filas += `
-                <tr onClick='mostrarMateria(${ JSON.stringify(materia) })'>
-                    <td>${materia.uv}</td>
-                    <td>${materia.nombre}</td>
-                    <td>${materia.docente}</td>
-                    <td><button onClick='eliminarMateria(${ JSON.stringify(materia) }, event)' class="btn btn-outline-danger btn-sm">ELIMINAR</button></td>
+                <tr onClick='mostrarMateria(${JSON.stringify(materia)})'>
+                    <td>${materia.uv || ''}</td>
+                    <td>${materia.nombre || ''}</td>
+                    <td>${materia.docente || ''}</td>
+                    <td><button onClick='eliminarMateria(${JSON.stringify(materia)}, event)' class="btn btn-outline-danger btn-sm">ELIMINAR</button></td>
                 </tr>
             `;
         });
         tblMaterias.innerHTML = filas;
     }
+    
     function eliminarMateria(materia, event){
         event.preventDefault();
-        if(confirm(`Esta seguro de eliminar a ${materia.nombre}`)){
+        event.stopPropagation();
+        
+        if(confirm(`Esta seguro de eliminar a ${materia.nombre}?`)){
             idMateria = materia.idMateria;
             accion = "eliminar";
             guardarMaterias();
-            alertify.success('Materia eliminada correctamente');
         }
     }
 </script>

@@ -9,28 +9,24 @@
             </div>
         </div>
         <div class="card-body">
-            
             <div class="row p-1">
                 <div class="col-3 col-md-2">UV</div>
                 <div class="col-9 col-md-3">
-                    <input required type="number" id="txtUV" name="txtUV" class="form-control form-control-sm" />
+                    <input required type="text" id="txtUvMateria" name="txtUvMateria" class="form-control form-control-sm" />
                 </div>
             </div>
-            
             <div class="row p-1">
                 <div class="col-3 col-md-2">NOMBRE</div>
-                <div class="col-9 col-md-8">
+                <div class="col-9 col-md-4">
                     <input required type="text" id="txtNombreMateria" name="txtNombreMateria" class="form-control form-control-sm" />
                 </div>
             </div>
-            
             <div class="row p-1">
                 <div class="col-3 col-md-2">DOCENTE</div>
-                <div class="col-9 col-md-8">
+                <div class="col-9 col-md-4">
                     <input type="text" id="txtDocenteMateria" name="txtDocenteMateria" class="form-control form-control-sm" />
                 </div>
             </div>
-            
         </div>
         <div class="card-footer text-center">
             <input type="submit" id="btnGuardarMateria" name="btnGuardarMateria" class="btn btn-outline-primary" value="GUARDAR" />
@@ -39,25 +35,32 @@
         </div>
     </div>
 </form>
-
 <script>
-    var accionMateria = "nuevo",
+    var accion = "nuevo",
         idMateria = 0;
     
     frmMaterias.addEventListener("submit",e=>{
         e.preventDefault();
         guardarMaterias();
     });
-
     async function guardarMaterias(){
         let datos = {
-            accion: accionMateria,
-            idMateria,
-            // Nuevos campos a enviar
-            uv: txtUV.value,
-            nombre: txtNombreMateria.value,
-            docente: txtDocenteMateria.value
+            accion,
+            idMateria
         };
+        
+        // Solo agregar campos si NO es eliminar
+        if(accion !== "eliminar"){
+            // Validación para nuevo/modificar
+            if(!txtUvMateria.value.trim() || !txtNombreMateria.value.trim()){
+                alertify.error('UV y Nombre son obligatorios');
+                return;
+            }
+            
+            datos.uv = txtUvMateria.value.trim();
+            datos.nombre = txtNombreMateria.value.trim();
+            datos.docente = txtDocenteMateria.value.trim();
+        }
         
         let response = await fetch("/materias",{
             method: "POST",
@@ -66,34 +69,34 @@
             respuesta = await response.json();
             
         if(respuesta.msg!="ok"){
-            alertify.error(`Error al procesar materia: ${respuesta.msg || JSON.stringify(respuesta)}`);
+            alertify.error(`Error al procesar materia: ${respuesta.msg}`);
             return;
         }
         
-        limpiarFormularioMateria();
-        // Llamada a la función obtenerMaterias (asume que existe)
-        obtenerMaterias(); 
+        if(accion === "eliminar"){
+            alertify.success('Materia eliminada correctamente');
+        } else {
+            alertify.success('Materia guardada correctamente');
+        }
+        
+        limpiarFormulario();
+        obtenerMaterias();
     }
-
-    function limpiarFormularioMateria(){
-        accionMateria = "nuevo";
+    function limpiarFormulario(){
+        accion = "nuevo";
         idMateria = 0;
-        // Limpiando los nuevos campos
-        txtUV.value = "";
+        txtUvMateria.value = "";
         txtNombreMateria.value = "";
         txtDocenteMateria.value = "";
     }
-
     function mostrarMateria(materia){
-        accionMateria = "modificar";
+        accion = "modificar";
         idMateria = materia.idMateria;
-        // Cargando los nuevos campos
-        txtUV.value = materia.uv;
+        txtUvMateria.value = materia.uv;
         txtNombreMateria.value = materia.nombre;
         txtDocenteMateria.value = materia.docente;
         alertify.success(`Materia ${materia.nombre} cargada para editar`);
     }
-
     btnBuscarMateria.addEventListener("click", e=>{
         e.preventDefault();
         abrirVentana('busqueda_materias');
