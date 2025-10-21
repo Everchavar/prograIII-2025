@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistema Académico</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Alertify CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css"/>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            background-color: #222;
+            border: 1px solid #333;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+        .card-title {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        label {
+            color: #ccc;
+        }
+
+        .form-control {
+            background-color: #2b2b3d;
+            border: 1px solid #444;
+            color: #fff;
+        }
+
+        .form-control:focus {
+            background-color: #333;
+            border-color: #5b6ef5;
+            color: #fff;
+        }
+
+        .btn-primary {
+            background-color: #5b6ef5;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #4a5fd1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4 mt-5">
+                <div class="card p-4">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">SISTEMA ACADÉMICO</h2>
+                        <form id="frmLogin">
+                            <div class="mb-3">
+                                <label for="txtUsuario" class="form-label">Usuario:</label>
+                                <input type="text" id="txtUsuario" name="txtUsuario" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txtClave" class="form-label">Contraseña:</label>
+                                <input type="password" id="txtClave" name="txtClave" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alertify JS -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+
+    <!-- Script de Login -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("frmLogin");
+
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                const datos = {
+                    usuario: document.getElementById("txtUsuario").value,
+                    clave: document.getElementById("txtClave").value
+                };
+
+                try {
+                    const response = await fetch("/login", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(datos)
+                    });
+
+                    const respuesta = await response.json();
+
+                    if (respuesta.status === "ok") {
+                        alertify.success(`Bienvenido ${respuesta.usuario.nombre}`);
+                        localStorage.setItem("usuarioLogueado", JSON.stringify(respuesta.usuario));
+                        setTimeout(() => window.location.href = "index.html", 1000);
+                    } else {
+                        alertify.error(respuesta.msg);
+                    }
+                } catch (error) {
+                    alertify.error("Error al conectar con el servidor");
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
+
